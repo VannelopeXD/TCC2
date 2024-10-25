@@ -22,12 +22,11 @@ import { doc, setDoc } from 'firebase/firestore';
 import { db } from '@/service/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
 
-
 function CreateTrip() {
   const [place, setPlace] = useState();
   const [formData, setFormData] = useState([]);
   const [openDailog, setOpenDailog] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
   const handleInputChange = (name, value) => {
@@ -42,7 +41,7 @@ function CreateTrip() {
   }, [formData]);
 
   const login = useGoogleLogin({
-    onSuccess: (codResp) => GetUserProfile(codResp),  // Obter perfil após sucesso
+    onSuccess: (codResp) => GetUserProfile(codResp), // Obter perfil após sucesso
     onError: (error) => console.log(error)
   });
 
@@ -63,11 +62,9 @@ function CreateTrip() {
       .replace('{location}', formData?.location)
       .replace('{totalDays}', formData?.noOfDays)
       .replace('{traveler}', formData?.traveler)
-      .replace('{budget}', formData?.budget); //quebrar o prompt
-      
+      .replace('{budget}', formData?.budget);
 
     const result = await chatSession.sendMessage(FINAL_PROMPT);
-  
 
     console.log("--", result?.response?.text());
     setLoading(false);
@@ -79,17 +76,14 @@ function CreateTrip() {
     const user = JSON.parse(localStorage.getItem('user'));
     const docId = Date.now().toString();
 
-    // Limpeza de qualquer texto fora do JSON (aspas triplas, blocos ```json etc.)
     let formattedTripData = TripData.trim();
 
-    // Remover prefixos como ```json ou ``` e outros caracteres indesejados
-    console.log("Antes de formatar:",formattedTripData)
+    // Remover markdown ```json e ```
     if (formattedTripData.startsWith('```json') || formattedTripData.startsWith('```')) {
       formattedTripData = formattedTripData.replace(/```json|```/g, '');
-      console.log("Depois de formatar:",formattedTripData)
     }
 
-    // Usando regex para remover qualquer coisa antes do primeiro '{' e depois do último '}'
+    // Extrair JSON usando o índice do primeiro `{` e último `}`
     const jsonStart = formattedTripData.indexOf('{');
     const jsonEnd = formattedTripData.lastIndexOf('}');
     if (jsonStart !== -1 && jsonEnd !== -1) {
@@ -102,13 +96,12 @@ function CreateTrip() {
     }
 
     try {
-
       const parsedTripData = JSON.parse(formattedTripData);
 
-      // Salva o objeto JSON corretamente no Firestore
+      // Salva o JSON no Firestore
       await setDoc(doc(db, "AITrips", docId), {
         userSelection: formData,
-        tripData: parsedTripData,  // Usa o objeto JSON parseado
+        tripData: parsedTripData,
         userEmail: user?.email,
         id: docId
       });
@@ -131,7 +124,7 @@ function CreateTrip() {
     }).then((resp) => {
       console.log(resp);
       localStorage.setItem('user', JSON.stringify(resp.data));
-      setOpenDailog(false);  // Fechar diálogo após login
+      setOpenDailog(false);
       onGenerateTrip();
     }).catch((error) => {
       console.error('Error fetching user profile:', error);
@@ -177,9 +170,8 @@ function CreateTrip() {
             <div
               key={index}
               onClick={() => handleInputChange('budget', item.title)}
-              className={`p-4 border cursor-pointer 
-            rounded-lg hover:shadow-lg
-            ${formData?.budget == item.title && 'shadow-lg border-black'}`}
+              className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
+                ${formData?.budget === item.title && 'shadow-lg border-black'}`}
             >
               <h2 className='text-4xl'>{item.icon}</h2>
               <h2 className='font-bold text-lg'>{item.title}</h2>
@@ -196,9 +188,8 @@ function CreateTrip() {
             <div
               key={index}
               onClick={() => handleInputChange('traveler', item.Pessoas)}
-              className={`p-4 border cursor-pointer rounded-lg
-            hover:shadow-lg
-            ${formData?.traveler == item.Pessoas && 'shadow-lg border-black'}`}
+              className={`p-4 border cursor-pointer rounded-lg hover:shadow-lg
+                ${formData?.traveler === item.Pessoas && 'shadow-lg border-black'}`}
             >
               <h2 className='text-4xl'>{item.icon}</h2>
               <h2 className='font-bold text-lg'>{item.title}</h2>
@@ -214,9 +205,7 @@ function CreateTrip() {
           onClick={onGenerateTrip}
           className={loading ? 'cursor-not-allowed opacity-50' : ''}
         >
-          {loading ?
-            <AiOutlineLoading3Quarters className='h-7 w-7 animate-spin' /> : 'Gerar Roteiro'
-          }
+          {loading ? <AiOutlineLoading3Quarters className='h-7 w-7 animate-spin' /> : 'Gerar Roteiro'}
         </Button>
       </div>
 
@@ -230,7 +219,8 @@ function CreateTrip() {
 
               <Button
                 onClick={login}
-                className='w-full mt-5 flex gap-4 items-center'>
+                className='w-full mt-5 flex gap-4 items-center'
+              >
                 <FcGoogle className='h-7 w-7' />
                 Entre com a sua conta Google!
               </Button>
