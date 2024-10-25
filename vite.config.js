@@ -9,8 +9,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  preview: {
-    host: '0.0.0.0',
-    port: process.env.PORT || 8080,
+  build: {
+    outDir: 'dist' // Certifique-se que a build vai para a pasta correta
   }
 })
