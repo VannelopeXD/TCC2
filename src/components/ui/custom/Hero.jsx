@@ -21,6 +21,7 @@ function Hero() {
         Pergunte Agora!
       </Button>
       </Link>
+      <img src='/landing.png'/>
     </div>
   )
 }

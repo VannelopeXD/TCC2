@@ -8,29 +8,32 @@ import Header from './components/ui/custom/Header.jsx';
 import { Toaster } from './components/ui/sonner.jsx';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Viewtrip from './view-trip/[tripid]/index.jsx';
+import MyTrips from './my-trips/index.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />
   },
-
   {
-    path:'/create-trip',
-    element: <CreateTrip/>
+    path: '/create-trip',
+    element: <CreateTrip />
   },
-
   {
-    path:'/view-trip/:tripid',
-    element: <Viewtrip/>
+    path: '/view-trip/:tripid',
+    element: <Viewtrip />
+  },
+  {
+    path: '/my-trips',
+    element: <MyTrips/>
   }
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID }>;
-      <Header/>
-      <Toaster/>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_AUTH_CLIENT_ID}>
+      <Header />
+      <Toaster />
       <RouterProvider router={router} /> 
     </GoogleOAuthProvider>
   </StrictMode>
