@@ -54,11 +54,11 @@ export const SelectBudgetOptions = [
 // export const AI_PROMPT='Generate Travel Plan for Location: {location}, for {totalDays} Days for {traveler} with a {budget} budget. Give me Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions, and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, Place address, ticket Pricing, and Time travel each of the location for {totalDays} days with each day plan with best time to visit in JSON format. Respond in Portuguese.'
 export const AI_PROMPT = `
 Gere um plano de viagem para o local: {location}, para {totalDays} dias para {traveler}, com um orçamento de {budget}. 
-Forneça uma lista de opções de hotéis com o nome do hotel, endereço, preço, URL da imagem do hotel, coordenadas geográficas, classificação, descrições 
+Forneça uma lista de opções de até 4 hotéis com o nome do hotel, endereço, preço, URL da imagem do hotel, coordenadas geográficas, classificação, descrições 
 e sugira um itinerário com o nome do local, detalhes do local, URL da imagem do local, coordenadas geográficas, endereço do local, preço dos ingressos e 
 tempo de viagem entre cada um dos locais para {totalDays} dias, com o plano de cada dia incluindo o melhor horário para visita.
 
-Responda **somente** no seguinte formato JSON, sem nenhum texto adicional, certificando-se de que todos os dias estejam dentro de um array no campo "itinerário":
+Responda **somente** no seguinte formato JSON abaixo, sem nenhum texto adicional, certificando-se de que todos os dias estejam dentro de um array no campo "itinerário":
 
 {
   "hotéis": [
